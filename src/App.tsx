@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-const App: React.FC = () => {
+import {connect} from 'react-redux';
+interface props {
+  age: any,
+  onAgeUp: any,
+  onAgeDown: any
+}
+class App extends Component<props> {
+  render() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <div> Age : {this.props.age} </div>
+     <button onClick={this.props.onAgeUp}>Age UP</button>
+     <button onClick={this.props.onAgeDown}>Age DOWN</button>
     </div>
-  );
+  )
+}
 }
 
-export default App;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onAgeUp: () => dispatch({type:'AGE_UP'}),
+    onAgeDown: () => dispatch({type: 'AGE_DOWN'})
+  }
+}
+
+const mapStateToProps = (state: any) => {
+  return {
+    age: state.age
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (App);
